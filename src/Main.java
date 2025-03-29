@@ -21,7 +21,6 @@ public class Main {
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                double orig = Math.asin(table[i][j]);
                 System.out.printf("sin(%.4f)=%.4f   ", table_x[i][j], table[i][j]);
             }
             System.out.println();
