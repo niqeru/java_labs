@@ -39,25 +39,31 @@ public class Main {
 
 
 
+
+
     static TestResult testInsertStart(int n) {
-        long linkedListTime = measureTime(n, () -> {
-            List<Integer> list = new LinkedList<>();
-            for (int i = 0; i < n; i++) {
-                list.add(0, i);
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        fillList(linkedList, n);
+
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        fillList(arrayList, n);
+
+        ArrayList<Integer> arrayListWithSize = new ArrayList<>(n);
+        fillList(arrayListWithSize, n);
+
+        long linkedListTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                linkedList.add(0, i);
             }
         });
-
-        long arrayListTime = measureTime(n, () -> {
-            List<Integer> list = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                list.add(0, i);
+        long arrayListTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                arrayList.add(0, i);
             }
         });
-
-        long arrayListWithSizeTime = measureTime(n, () -> {
-            List<Integer> list = new ArrayList<>(n);
-            for (int i = 0; i < n; i++) {
-                list.add(0, i);
+        long arrayListWithSizeTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                arrayListWithSize.add(0, i);
             }
         });
 
@@ -76,26 +82,32 @@ public class Main {
 
 
     static TestResult testInsertMiddle(int n) {
-        long linkedListTime = measureTime(n, () -> {
-            List<Integer> list = new LinkedList<>();
-            for (int i = 0; i < n; i++) {
-                list.add(list.size() / 2, i);
-            }
-        });
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        fillList(linkedList, n);
 
-        long arrayListTime = measureTime(n, () -> {
-            List<Integer> list = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                list.add(list.size() / 2, i);
-            }
-        });
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        fillList(arrayList, n);
 
-        long arrayListWithSizeTime = measureTime(n, () -> {
-            List<Integer> list = new ArrayList<>(n);
-            for (int i = 0; i < n; i++) {
-                list.add(list.size() / 2, i);
+        ArrayList<Integer> arrayListWithSize = new ArrayList<>(n);
+        fillList(arrayListWithSize, n);
+
+        long linkedListTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                linkedList.add(linkedList.size() / 2, i);
             }
-        });
+            });
+
+        long arrayListTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                arrayList.add(arrayList.size() / 2, i);
+            }
+            });
+
+        long arrayListWithSizeTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                arrayListWithSize.add(arrayListWithSize.size() / 2, i);
+            }
+            });
 
         return new TestResult(
                 "InsertMiddle",
@@ -112,47 +124,59 @@ public class Main {
 
 
     static TestResult testInsertEnd(int n) {
-        long arrayTime = measureTime(n, () -> {
-            Integer[] array = new Integer[n];
-            for (int i = 0; i < n; i++) {
+        Integer[] array = new Integer[n];
+        Arrays.fill(array, 0);
+
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        fillList(linkedList, n);
+
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        fillList(arrayList, n);
+
+        ArrayList<Integer> arrayListWithSize = new ArrayList<>(n);
+        fillList(arrayListWithSize, n);
+
+        HashSet<Integer> hashSet = new HashSet<>();
+        fillSet(hashSet, n);
+
+        TreeSet<Integer> treeSet = new TreeSet<>();
+        fillSet(treeSet, n);
+
+        long arrayTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
                 array[i] = i;
             }
-        });
+            });
 
-        long linkedListTime = measureTime(n, () -> {
-            List<Integer> list = new LinkedList<>();
-            for (int i = 0; i < n; i++) {
-                list.add(i);
+        long linkedListTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                linkedList.add(i);
             }
-        });
+            });
 
-        long arrayListTime = measureTime(n, () -> {
-            List<Integer> list = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                list.add(i);
+        long arrayListTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                arrayList.add(i);
             }
-        });
+            });
 
-        long arrayListWithSizeTime = measureTime(n, () -> {
-            List<Integer> list = new ArrayList<>(n);
-            for (int i = 0; i < n; i++) {
-                list.add(i);
+        long arrayListWithSizeTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                arrayListWithSize.add(i);
             }
-        });
+            });
 
-        long hashSetTime = measureTime(n, () -> {
-            Set<Integer> set = new HashSet<>();
-            for (int i = 0; i < n; i++) {
-                set.add(i);
+        long hashSetTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                hashSet.add(i);
             }
-        });
+            });
 
-        long treeSetTime = measureTime(n, () -> {
-            Set<Integer> set = new TreeSet<>();
-            for (int i = 0; i < n; i++) {
-                set.add(i);
+        long treeSetTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                treeSet.add(i);
             }
-        });
+            });
 
         return new TestResult(
                 "InsertEnd",
@@ -170,29 +194,30 @@ public class Main {
 
 
     static TestResult testDeleteStart(int n) {
-        long linkedListTime = measureTime(n, () -> {
-            List<Integer> list = new LinkedList<>();
-            fillList(list, n);
-            while (!list.isEmpty()) {
-                list.remove(0);
-            }
-        });
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        fillList(linkedList, n);
 
-        long arrayListTime = measureTime(n, () -> {
-            List<Integer> list = new ArrayList<>();
-            fillList(list, n);
-            while (!list.isEmpty()) {
-                list.remove(0);
-            }
-        });
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        fillList(arrayList, n);
 
-        long arrayListWithSizeTime = measureTime(n, () -> {
-            List<Integer> list = new ArrayList<>(n);
-            fillList(list, n);
-            while (!list.isEmpty()) {
-                list.remove(0);
+        ArrayList<Integer> arrayListWithSize = new ArrayList<>(n);
+        fillList(arrayListWithSize, n);
+
+        long linkedListTime = measureTime(n, () ->
+            {while (!linkedList.isEmpty()) {
+                linkedList.remove(0);
             }
-        });
+            });
+        long arrayListTime = measureTime(n, () ->
+            {while (!arrayList.isEmpty()) {
+                arrayList.remove(0);
+            }
+            });
+        long arrayListWithSizeTime = measureTime(n, () ->
+            {while (!arrayListWithSize.isEmpty()) {
+                arrayListWithSize.remove(0);
+            }
+            });
 
         return new TestResult(
                 "DeleteStart",
@@ -211,27 +236,28 @@ public class Main {
 
 
     static TestResult testDeleteMiddle(int n) {
-        long linkedListTime = measureTime(n, () -> {
-            List<Integer> list = new LinkedList<>();
-            fillList(list, n);
-            while (!list.isEmpty()) {
-                list.remove(list.size() / 2);
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        fillList(linkedList, n);
+
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        fillList(arrayList, n);
+
+        ArrayList<Integer> arrayListWithSize = new ArrayList<>(n);
+        fillList(arrayListWithSize, n);
+
+        long linkedListTime = measureTime(n, () ->
+            {while (!linkedList.isEmpty()) {
+                linkedList.remove(linkedList.size() / 2);
             }
         });
-
-        long arrayListTime = measureTime(n, () -> {
-            List<Integer> list = new ArrayList<>();
-            fillList(list, n);
-            while (!list.isEmpty()) {
-                list.remove(list.size() / 2);
+        long arrayListTime = measureTime(n, () ->
+            {while (!arrayList.isEmpty()) {
+                arrayList.remove(arrayList.size() / 2);
             }
         });
-
-        long arrayListWithSizeTime = measureTime(n, () -> {
-            List<Integer> list = new ArrayList<>(n);
-            fillList(list, n);
-            while (!list.isEmpty()) {
-                list.remove(list.size() / 2);
+        long arrayListWithSizeTime = measureTime(n, () ->
+            {while (!arrayListWithSize.isEmpty()) {
+                arrayListWithSize.remove(arrayListWithSize.size() / 2);
             }
         });
 
@@ -252,45 +278,41 @@ public class Main {
 
 
     static TestResult testDeleteEnd(int n) {
-        long linkedListTime = measureTime(n, () -> {
-            List<Integer> list = new LinkedList<>();
-            fillList(list, n);
-            while (!list.isEmpty()) {
-                list.remove(list.size() - 1);
-            }
-        });
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        fillList(linkedList, n);
 
-        long arrayListTime = measureTime(n, () -> {
-            List<Integer> list = new ArrayList<>();
-            fillList(list, n);
-            while (!list.isEmpty()) {
-                list.remove(list.size() - 1);
-            }
-        });
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        fillList(arrayList, n);
 
-        long arrayListWithSizeTime = measureTime(n, () -> {
-            List<Integer> list = new ArrayList<>(n);
-            fillList(list, n);
-            while (!list.isEmpty()) {
-                list.remove(list.size() - 1);
-            }
-        });
+        ArrayList<Integer> arrayListWithSize = new ArrayList<>(n);
+        fillList(arrayListWithSize, n);
 
-        long hashSetTime = measureTime(n, () -> {
-            Set<Integer> set = new HashSet<>();
-            fillSet(set, n);
-            for (int i = n - 1; i >= 0; i--) {
-                set.remove(i);
-            }
-        });
+        HashSet<Integer> hashSet = new HashSet<>();
+        fillSet(hashSet, n);
 
-        long treeSetTime = measureTime(n, () -> {
-            Set<Integer> set = new TreeSet<>();
-            fillSet(set, n);
-            for (int i = n - 1; i >= 0; i--) {
-                set.remove(i);
-            }
-        });
+        TreeSet<Integer> treeSet = new TreeSet<>();
+        fillSet(treeSet, n);
+
+        long linkedListTime = measureTime(n, () ->
+            {while (!linkedList.isEmpty()) {
+                linkedList.remove(linkedList.size() - 1);
+            }});
+        long arrayListTime = measureTime(n, () ->
+            {while (!arrayList.isEmpty()) {
+                arrayList.remove(arrayList.size() - 1);
+            }});
+        long arrayListWithSizeTime = measureTime(n, () ->
+            {while (!arrayListWithSize.isEmpty()) {
+                arrayListWithSize.remove(arrayListWithSize.size() - 1);
+            }});
+        long hashSetTime = measureTime(n, () ->
+            {for (int i = n - 1; i >= 0; i--) {
+                hashSet.remove(i);
+            }});
+        long treeSetTime = measureTime(n, () ->
+            {for (int i = n - 1; i >= 0; i--) {
+                treeSet.remove(i);
+            }});
 
         return new TestResult(
                 "DeleteEnd",
@@ -310,53 +332,49 @@ public class Main {
 
 
     static TestResult testGetElements(int n) {
-        long arrayTime = measureTime(n, () -> {
-            Integer[] array = new Integer[n];
-            for (int i = 0; i < n; i++) array[i] = i;
-            for (int i = 0; i < n; i++) {
+        Integer[] array = new Integer[n];
+        for (int i = 0; i < n; i++) array[i] = i;
+
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        fillList(linkedList, n);
+
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        fillList(arrayList, n);
+
+        ArrayList<Integer> arrayListWithSize = new ArrayList<>(n);
+        fillList(arrayListWithSize, n);
+
+        HashSet<Integer> hashSet = new HashSet<>();
+        fillSet(hashSet, n);
+
+        TreeSet<Integer> treeSet = new TreeSet<>();
+        fillSet(treeSet, n);
+
+        long arrayTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
                 Integer val = array[i];
-            }
-        });
+            }});
+        long linkedListTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                Integer val = linkedList.get(i);
+            }});
+        long arrayListTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                Integer val = arrayList.get(i);
+            }});
+        long arrayListWithSizeTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                Integer val = arrayListWithSize.get(i);
+            }});
+        long hashSetTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                boolean contains = hashSet.contains(i);
+            }});
+        long treeSetTime = measureTime(n, () ->
+            {for (int i = 0; i < n; i++) {
+                boolean contains = treeSet.contains(i);
+            }});
 
-        long linkedListTime = measureTime(n, () -> {
-            List<Integer> list = new LinkedList<>();
-            fillList(list, n);
-            for (int i = 0; i < n; i++) {
-                Integer val = list.get(i);
-            }
-        });
-
-        long arrayListTime = measureTime(n, () -> {
-            List<Integer> list = new ArrayList<>();
-            fillList(list, n);
-            for (int i = 0; i < n; i++) {
-                Integer val = list.get(i);
-            }
-        });
-
-        long arrayListWithSizeTime = measureTime(n, () -> {
-            List<Integer> list = new ArrayList<>(n);
-            fillList(list, n);
-            for (int i = 0; i < n; i++) {
-                Integer val = list.get(i);
-            }
-        });
-
-        long hashSetTime = measureTime(n, () -> {
-            Set<Integer> set = new HashSet<>();
-            fillSet(set, n);
-            for (int i = 0; i < n; i++) {
-                boolean contains = set.contains(i);
-            }
-        });
-
-        long treeSetTime = measureTime(n, () -> {
-            Set<Integer> set = new TreeSet<>();
-            fillSet(set, n);
-            for (int i = 0; i < n; i++) {
-                boolean contains = set.contains(i);
-            }
-        });
 
         return new TestResult(
                 "Get",
