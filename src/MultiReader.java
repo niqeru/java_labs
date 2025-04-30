@@ -8,8 +8,11 @@ public class MultiReader extends Reader{
     private Reader currentReader;
 
     public MultiReader(List<Reader> readers) {
+        if (readers == null) throw new IllegalArgumentException("readers cannot be null");
         this.readers = readers.iterator();
-        if(this.readers.hasNext()) this.currentReader = this.readers.next();
+        if (this.readers.hasNext()) {
+            this.currentReader = this.readers.next();
+        }
         else this.currentReader = null;
     }
 
@@ -22,7 +25,9 @@ public class MultiReader extends Reader{
         int bytesRead = currentReader.read(cbuf, off, len);
         if (bytesRead == -1) {
             currentReader.close();
-            if(readers.hasNext()) currentReader = readers.next();
+            if (readers.hasNext()) {
+                currentReader = readers.next();
+            }
             else currentReader =  null;
             return read(cbuf, off, len);
         }
@@ -35,7 +40,7 @@ public class MultiReader extends Reader{
         while (currentReader != null) {
             currentReader.close();
             if(readers.hasNext()) currentReader = readers.next();
-            else currentReader =null;
+            else currentReader = null;
         }
     }
 }

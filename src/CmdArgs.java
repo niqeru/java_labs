@@ -53,16 +53,19 @@ public final class CmdArgs {
             return this;
         }
 
-        public void setCount(boolean count) {
+        public Builder setCount(boolean count) {
             this.count = count;
+            return this;
         }
 
-        public void setDesc(boolean desc) {
+        public Builder setDesc(boolean desc) {
             this.desc = desc;
+            return this;
         }
 
-        public void setHorizontal(boolean horizontal) {
+        public Builder setHorizontal(boolean horizontal) {
             this.horizontal = horizontal;
+            return this;
         }
 
         public void setIgnoreCase(boolean ignoreCase) {

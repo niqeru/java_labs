@@ -61,12 +61,7 @@ public class Main {
 
         List<Reader> readers = new ArrayList<>();
         for (String filePath : pars.getInputFiles()) {
-            Reader fileReader = new BufferedReader(
-                    new InputStreamReader(
-                            new FileInputStream(filePath),
-                            StandardCharsets.UTF_8
-                    )
-            );
+            Reader fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8));
             readers.add(fileReader);
         }
 
@@ -84,15 +79,9 @@ public class Main {
         Writer writer;
 
         if (pars.getOut() != null) {
-            writer = new BufferedWriter(
-                    new OutputStreamWriter(
-                            new FileOutputStream(pars.getOut()),
-                            StandardCharsets.UTF_8
-                    )
-            );
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(pars.getOut()), StandardCharsets.UTF_8));
         } else {
-            writer = new BufferedWriter(
-                    new OutputStreamWriter(System.out, StandardCharsets.UTF_8)
+            writer = new BufferedWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8)
             );
         }
 
@@ -104,10 +93,7 @@ public class Main {
 
         try {
             GraphWriter decorator = (GraphWriter) writer;
-            decorator.writeAnalysisResult(
-                    result,
-                    pars.isCount(),
-                    pars.isDesc()
+            decorator.writeAnalysisResult(result, pars.isCount(), pars.isDesc()
             );
         } finally {
             writer.close();

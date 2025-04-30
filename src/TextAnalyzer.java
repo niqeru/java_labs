@@ -28,6 +28,7 @@ public class TextAnalyzer {
         return new AnalysisResult(frequencyMap);
     }
 
+
     public static class AnalysisResult {
         private final Map<Character, Integer> frequencyMap;
 
