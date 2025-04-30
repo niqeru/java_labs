@@ -23,7 +23,7 @@ public class Main {
             for (int j = 0; j < width; j++) {
                 System.out.printf("sin(%.4f)=%.4f   ", table_x[i][j], table[i][j]);
             }
-            System.out.println();
+            System.out.println("privet");
         }
     }
 }
