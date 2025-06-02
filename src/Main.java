@@ -9,9 +9,9 @@ public class Main {
         double b = scanner.nextDouble();
         double c = scanner.nextDouble();
 
-        System.out.print("Введите границы интервала от и до: ");
+        System.out.print("Введите гранипапукуцы интервала от и до: ");
         double xfrom = scanner.nextDouble();
-        double xto = scanner.nextDouble();
+        double xtoе = scanner.nextDouble();
 
         System.out.print("Введите размер таблицы: ");
         int tableSize = scanner.nextInt();
@@ -21,7 +21,7 @@ public class Main {
 
         scanner.close();
 
-        String[][] table = buildTable(a, b, c, xfrom, xto, tableSize, stepsCount);
+        String[][] table = buildTable(a, b, c, xfrom, xtoе, tableSize, stepsCount);
         printTable(table);
     }
 
