@@ -1,8 +1,15 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public final class Polygon implements Shape {
+    public static final int TYPE = 4;
+
+    static {
+        FigureRegistry.register(TYPE, Polygon::readFromStream);
+    }
+
     private final List<Vector> vertices;
 
     public Polygon(List<Vector> vertices) {
@@ -65,6 +72,27 @@ public final class Polygon implements Shape {
             ySum += v.getY();
         }
         return new Vector(xSum / n, ySum / n);
+    }
+
+    @Override
+    public void writeToStream(FigureOutput out) throws IOException {
+        out.writeInt(TYPE);
+        out.writeInt(vertices.size());
+        for (Vector v : vertices) {
+            out.writeDouble(v.getX());
+            out.writeDouble(v.getY());
+        }
+    }
+
+    public static Polygon readFromStream(FigureInput in) throws IOException {
+        int n = in.readInt();
+        List<Vector> vertices = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            double x = in.readDouble();
+            double y = in.readDouble();
+            vertices.add(new Vector(x, y));
+        }
+        return new Polygon(vertices);
     }
 
     @Override

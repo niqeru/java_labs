@@ -1,4 +1,12 @@
+import java.io.IOException;
+
 public final class Point implements Drawable {
+    public static final int TYPE = 6;
+
+    static {
+        FigureRegistry.register(TYPE, Point::readFromStream);
+    }
+
     private final Vector position;
 
     public Point(Vector position) {
@@ -20,6 +28,19 @@ public final class Point implements Drawable {
     @Override
     public Point move(Vector vector) {
         return new Point(position.plus(vector));
+    }
+
+    @Override
+    public void writeToStream(FigureOutput out) throws IOException {
+        out.writeInt(TYPE);
+        out.writeDouble(position.getX());
+        out.writeDouble(position.getY());
+    }
+
+    public static Point readFromStream(FigureInput in) throws IOException {
+        double x = in.readDouble();
+        double y = in.readDouble();
+        return new Point(new Vector(x, y));
     }
 
     @Override

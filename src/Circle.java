@@ -1,6 +1,13 @@
+import java.io.IOException;
 import java.util.Objects;
 
 public final class Circle implements Shape {
+    public static final int TYPE = 1;
+
+    static {
+        FigureRegistry.register(TYPE, Circle::readFromStream);
+    }
+
     private final Vector center;
     private final double radius;
 
@@ -10,9 +17,7 @@ public final class Circle implements Shape {
     }
 
     @Override
-    public void draw() {
-        // Пока пусто
-    }
+    public void draw() {}
 
     @Override
     public Circle move(Vector vector) {
@@ -32,6 +37,21 @@ public final class Circle implements Shape {
     @Override
     public Circle scale(double factor) {
         return new Circle(center, radius * factor);
+    }
+
+    @Override
+    public void writeToStream(FigureOutput out) throws IOException {
+        out.writeInt(TYPE);
+        out.writeDouble(center.getX());
+        out.writeDouble(center.getY());
+        out.writeDouble(radius);
+    }
+
+    public static Circle readFromStream(FigureInput in) throws IOException {
+        double x = in.readDouble();
+        double y = in.readDouble();
+        double r = in.readDouble();
+        return new Circle(new Vector(x, y), r);
     }
 
     @Override

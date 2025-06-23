@@ -1,6 +1,13 @@
+import java.io.IOException;
 import java.util.Objects;
 
 public final class Line implements Drawable {
+    public static final int TYPE = 7;
+
+    static {
+        FigureRegistry.register(TYPE, Line::readFromStream);
+    }
+
     private final Vector start;
     private final Vector end;
 
@@ -31,6 +38,23 @@ public final class Line implements Drawable {
         Vector newStart = center.plus(start.minus(center).multiply(factor));
         Vector newEnd = center.plus(end.minus(center).multiply(factor));
         return new Line(newStart, newEnd);
+    }
+
+    @Override
+    public void writeToStream(FigureOutput out) throws IOException {
+        out.writeInt(TYPE);
+        out.writeDouble(start.getX());
+        out.writeDouble(start.getY());
+        out.writeDouble(end.getX());
+        out.writeDouble(end.getY());
+    }
+
+    public static Line readFromStream(FigureInput in) throws IOException {
+        double x1 = in.readDouble();
+        double y1 = in.readDouble();
+        double x2 = in.readDouble();
+        double y2 = in.readDouble();
+        return new Line(new Vector(x1, y1), new Vector(x2, y2));
     }
 
     @Override

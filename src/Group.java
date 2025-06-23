@@ -1,8 +1,15 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Group implements Shape {
+    public static final int TYPE = 100;
+
+    static {
+        FigureRegistry.register(TYPE, Group::readFromStream);
+    }
+
     private final List<Shape> shapes = new ArrayList<>();
 
     public void add(Shape shape) {
@@ -66,5 +73,40 @@ public class Group implements Shape {
             scaled.add(shape.scale(factor));
         }
         return scaled;
+    }
+
+    @Override
+    public void writeToStream(FigureOutput out) throws IOException {
+        out.writeInt(TYPE);
+        out.writeInt(shapes.size());
+        for (Shape shape : shapes) {
+            shape.writeToStream(out);
+        }
+    }
+
+    public static Group readFromStream(FigureInput in) throws IOException {
+        int n = in.readInt();
+        Group group = new Group();
+        for (int i = 0; i < n; i++) {
+            Drawable d = in.readDrawable();
+            if (d instanceof Shape) {
+                group.add((Shape) d);
+            }
+        }
+        return group;
+    }
+
+    public boolean contentEquals(Group other) {
+        if (this.shapes.size() != other.shapes.size()) return false;
+        for (int i = 0; i < shapes.size(); i++) {
+            Shape s1 = shapes.get(i);
+            Shape s2 = other.shapes.get(i);
+            if (s1 instanceof Group && s2 instanceof Group) {
+                if (!((Group) s1).contentEquals((Group) s2)) return false;
+            } else {
+                if (!s1.equals(s2)) return false;
+            }
+        }
+        return true;
     }
 }

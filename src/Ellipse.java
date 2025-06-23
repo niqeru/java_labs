@@ -1,6 +1,13 @@
+import java.io.IOException;
 import java.util.Objects;
 
 public final class Ellipse implements Shape {
+    public static final int TYPE = 5;
+
+    static {
+        FigureRegistry.register(TYPE, Ellipse::readFromStream);
+    }
+
     private final Vector center;
     private final double a; // большая полуось
     private final double b; // малая полуось
@@ -45,6 +52,25 @@ public final class Ellipse implements Shape {
     @Override
     public Ellipse scale(double factor) {
         return new Ellipse(center, a * factor, b * factor, angleRadians);
+    }
+
+    @Override
+    public void writeToStream(FigureOutput out) throws IOException {
+        out.writeInt(TYPE);
+        out.writeDouble(center.getX());
+        out.writeDouble(center.getY());
+        out.writeDouble(a);
+        out.writeDouble(b);
+        out.writeDouble(angleRadians);
+    }
+
+    public static Ellipse readFromStream(FigureInput in) throws IOException {
+        double x = in.readDouble();
+        double y = in.readDouble();
+        double a = in.readDouble();
+        double b = in.readDouble();
+        double angle = in.readDouble();
+        return new Ellipse(new Vector(x, y), a, b, angle);
     }
 
     @Override

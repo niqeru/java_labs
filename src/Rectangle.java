@@ -1,6 +1,13 @@
+import java.io.IOException;
 import java.util.Objects;
 
 public final class Rectangle implements Shape {
+    public static final int TYPE = 2;
+
+    static {
+        FigureRegistry.register(TYPE, Rectangle::readFromStream);
+    }
+
     private final Vector center;
     private final double width;
     private final double height;
@@ -70,6 +77,25 @@ public final class Rectangle implements Shape {
 
     public double getAngleRadians() {
         return angleRadians;
+    }
+
+    @Override
+    public void writeToStream(FigureOutput out) throws IOException {
+        out.writeInt(TYPE);
+        out.writeDouble(center.getX());
+        out.writeDouble(center.getY());
+        out.writeDouble(width);
+        out.writeDouble(height);
+        out.writeDouble(angleRadians);
+    }
+
+    public static Rectangle readFromStream(FigureInput in) throws IOException {
+        double x = in.readDouble();
+        double y = in.readDouble();
+        double width = in.readDouble();
+        double height = in.readDouble();
+        double angle = in.readDouble();
+        return new Rectangle(new Vector(x, y), width, height, angle);
     }
 
     @Override

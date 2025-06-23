@@ -1,6 +1,13 @@
+import java.io.IOException;
 import java.util.Objects;
 
 public final class Triangle implements Shape {
+    public static final int TYPE = 3;
+
+    static {
+        FigureRegistry.register(TYPE, Triangle::readFromStream);
+    }
+
     private final Vector a;
     private final Vector b;
     private final Vector c;
@@ -47,6 +54,27 @@ public final class Triangle implements Shape {
                 centroid.plus(b.minus(centroid).multiply(factor)),
                 centroid.plus(c.minus(centroid).multiply(factor))
         );
+    }
+
+    @Override
+    public void writeToStream(FigureOutput out) throws IOException {
+        out.writeInt(TYPE);
+        out.writeDouble(a.getX());
+        out.writeDouble(a.getY());
+        out.writeDouble(b.getX());
+        out.writeDouble(b.getY());
+        out.writeDouble(c.getX());
+        out.writeDouble(c.getY());
+    }
+
+    public static Triangle readFromStream(FigureInput in) throws IOException {
+        double ax = in.readDouble();
+        double ay = in.readDouble();
+        double bx = in.readDouble();
+        double by = in.readDouble();
+        double cx = in.readDouble();
+        double cy = in.readDouble();
+        return new Triangle(new Vector(ax, ay), new Vector(bx, by), new Vector(cx, cy));
     }
 
     @Override
