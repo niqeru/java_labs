@@ -17,20 +17,18 @@ public final class Triangle implements Shape {
     }
 
     @Override
-    public Triangle translate(Vector vector) {
-        return move(vector);
+    public Triangle move(Vector vector) {
+        return new Triangle(a.plus(vector), b.plus(vector), c.plus(vector));
     }
 
+    @Override
     public double area() {
         Vector ab = b.minus(a);
         Vector ac = c.minus(a);
         return ab.triangleArea(ac);
     }
 
-    public Triangle move(Vector vector) {
-        return new Triangle(a.plus(vector), b.plus(vector), c.plus(vector));
-    }
-
+    @Override
     public double perimeter() {
         double ab = b.minus(a).length();
         double bc = c.minus(b).length();
@@ -38,19 +36,16 @@ public final class Triangle implements Shape {
         return ab + bc + ca;
     }
 
-    private Vector scaleVector(Vector p, Vector center, double factor) {
-        return center.plus(p.minus(center).multiply(factor));
-    }
-
+    @Override
     public Triangle scale(double factor) {
         Vector centroid = new Vector(
                 (a.getX() + b.getX() + c.getX()) / 3,
                 (a.getY() + b.getY() + c.getY()) / 3
         );
         return new Triangle(
-                scaleVector(a, centroid, factor),
-                scaleVector(b, centroid, factor),
-                scaleVector(c, centroid, factor)
+                centroid.plus(a.minus(centroid).multiply(factor)),
+                centroid.plus(b.minus(centroid).multiply(factor)),
+                centroid.plus(c.minus(centroid).multiply(factor))
         );
     }
 

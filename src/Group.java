@@ -33,10 +33,10 @@ public class Group implements Shape {
     }
 
     @Override
-    public Group translate(Vector vector) {
+    public Group move(Vector vector) {
         Group moved = new Group();
         for (Shape shape : shapes) {
-            moved.add((Shape) shape.translate(vector));
+            moved.add((Shape) shape.move(vector));
         }
         return moved;
     }
@@ -57,5 +57,14 @@ public class Group implements Shape {
             sum += shape.perimeter();
         }
         return sum;
+    }
+
+    @Override
+    public Group scale(double factor) {
+        Group scaled = new Group();
+        for (Shape shape : shapes) {
+            scaled.add(shape.scale(factor));
+        }
+        return scaled;
     }
 }

@@ -19,22 +19,21 @@ public final class Rectangle implements Shape {
     }
 
     @Override
-    public Rectangle translate(Vector vector) {
-        return move(vector);
-    }
-
-    public double area() {
-        return width * height;
-    }
-
     public Rectangle move(Vector vector) {
         return new Rectangle(center.plus(vector), width, height, angleRadians);
     }
 
+    @Override
+    public double area() {
+        return width * height;
+    }
+
+    @Override
     public double perimeter() {
         return 2 * (width + height);
     }
 
+    @Override
     public Rectangle scale(double factor) {
         return new Rectangle(center, width * factor, height * factor, angleRadians);
     }

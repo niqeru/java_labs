@@ -15,16 +15,12 @@ public final class Line implements Drawable {
     }
 
     @Override
-    public Line translate(Vector vector) {
-        return move(vector);
+    public Line move(Vector vector) {
+        return new Line(start.plus(vector), end.plus(vector));
     }
 
     public double length() {
         return end.minus(start).length();
-    }
-
-    public Line move(Vector vector) {
-        return new Line(start.plus(vector), end.plus(vector));
     }
 
     public Line scale(double factor) {

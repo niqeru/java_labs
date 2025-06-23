@@ -18,10 +18,6 @@ public final class Point implements Drawable {
     }
 
     @Override
-    public Point translate(Vector vector) {
-        return move(vector);
-    }
-
     public Point move(Vector vector) {
         return new Point(position.plus(vector));
     }

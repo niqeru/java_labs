@@ -27,41 +27,24 @@ public final class Ellipse implements Shape {
     }
 
     @Override
-    public Ellipse translate(Vector v) {
-        return move(v);
-    }
-
-    public Vector getCenter() {
-        return center;
-    }
-
-    public double getA() {
-        return a;
-    }
-
-    public double getB() {
-        return b;
-    }
-
-    public double getAngleRadians() {
-        return angleRadians;
-    }
-
     public Ellipse move(Vector v) {
         return new Ellipse(center.plus(v), a, b, angleRadians);
     }
 
-    public Ellipse scale(double factor) {
-        return new Ellipse(center, a * factor, b * factor, angleRadians);
-    }
-
+    @Override
     public double area() {
         return Math.PI * a * b;
     }
 
+    @Override
     public double perimeter() {
         // Приближённая формула Раману
         return Math.PI * (3 * (a + b) - Math.sqrt((3 * a + b) * (a + 3 * b)));
+    }
+
+    @Override
+    public Ellipse scale(double factor) {
+        return new Ellipse(center, a * factor, b * factor, angleRadians);
     }
 
     @Override

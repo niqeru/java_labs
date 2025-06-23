@@ -15,10 +15,15 @@ public final class Polygon implements Shape {
     }
 
     @Override
-    public Polygon translate(Vector vector) {
-        return move(vector);
+    public Polygon move(Vector vector) {
+        List<Vector> newVertices = new ArrayList<>();
+        for (Vector vertex : vertices) {
+            newVertices.add(vertex.plus(vector));
+        }
+        return new Polygon(newVertices);
     }
 
+    @Override
     public double area() {
         double sum = 0;
         int n = vertices.size();
@@ -30,14 +35,7 @@ public final class Polygon implements Shape {
         return Math.abs(sum) / 2;
     }
 
-    public Polygon move(Vector vector) {
-        List<Vector> newVertices = new ArrayList<>();
-        for (Vector vertex : vertices) {
-            newVertices.add(vertex.plus(vector));
-        }
-        return new Polygon(newVertices);
-    }
-
+    @Override
     public double perimeter() {
         double perimeter = 0.0;
         int n = vertices.size();
@@ -49,6 +47,7 @@ public final class Polygon implements Shape {
         return perimeter;
     }
 
+    @Override
     public Polygon scale(double factor) {
         Vector center = calculateCentroid();
         List<Vector> newVertices = new ArrayList<>();

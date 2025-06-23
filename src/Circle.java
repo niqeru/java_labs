@@ -15,22 +15,21 @@ public final class Circle implements Shape {
     }
 
     @Override
-    public Circle translate(Vector vector) {
-        return move(vector);
-    }
-
-    public double area() {
-        return Math.PI * radius * radius;
-    }
-
     public Circle move(Vector vector) {
         return new Circle(center.plus(vector), radius);
     }
 
+    @Override
+    public double area() {
+        return Math.PI * radius * radius;
+    }
+
+    @Override
     public double perimeter() {
         return 2 * Math.PI * radius;
     }
 
+    @Override
     public Circle scale(double factor) {
         return new Circle(center, radius * factor);
     }
