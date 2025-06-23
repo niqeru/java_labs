@@ -1,43 +1,39 @@
 import java.util.Objects;
 
 public final class Triangle {
-    private final Point a;
-    private final Point b;
-    private final Point c;
+    private final Vector a;
+    private final Vector b;
+    private final Vector c;
 
-    public Triangle(Point a, Point b, Point c) {
+    public Triangle(Vector a, Vector b, Vector c) {
         this.a = a;
         this.b = b;
         this.c = c;
     }
 
     public double area() {
-        Vector ab = new Vector(b.getX() - a.getX(), b.getY() - a.getY());
-        Vector ac = new Vector(c.getX() - a.getX(), c.getY() - a.getY());
+        Vector ab = b.minus(a);
+        Vector ac = c.minus(a);
         return ab.triangleArea(ac);
     }
 
     public Triangle move(Vector vector) {
         return new Triangle(
-                a.move(vector),
-                b.move(vector),
-                c.move(vector)
+                a.plus(vector),
+                b.plus(vector),
+                c.plus(vector)
         );
     }
 
     public double perimeter() {
-        double a1 = new Vector((b.getX() - a.getX()), (b.getY() - a.getY())).length();
-        double b1 = new Vector(c.getX() - b.getX(), c.getY() - b.getY()).length();
-        double c1 = new Vector(a.getX() - c.getX(), a.getY() - c.getY()).length();
-        return a1 + b1 + c1;
+        double ab = b.minus(a).length();
+        double bc = c.minus(b).length();
+        double ca = a.minus(c).length();
+        return ab + bc + ca;
     }
 
-
-    private Point scalePoint(Point p, Vector center, double factor) {
-        return new Point(
-                center.getX() + (p.getX() - center.getX()) * factor,
-                center.getY() + (p.getY() - center.getY()) * factor
-        );
+    private Vector scaleVector(Vector p, Vector center, double factor) {
+        return center.plus(p.minus(center).multiply(factor));
     }
 
     public Triangle scale(double factor) {
@@ -45,11 +41,10 @@ public final class Triangle {
                 (a.getX() + b.getX() + c.getX()) / 3,
                 (a.getY() + b.getY() + c.getY()) / 3
         );
-
         return new Triangle(
-                scalePoint(a, centroid, factor),
-                scalePoint(b, centroid, factor),
-                scalePoint(c, centroid, factor)
+                scaleVector(a, centroid, factor),
+                scaleVector(b, centroid, factor),
+                scaleVector(c, centroid, factor)
         );
     }
 

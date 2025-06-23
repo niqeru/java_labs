@@ -1,47 +1,31 @@
 import java.util.Objects;
 
 public final class Line {
-    private final Point start;
-    private final Point end;
+    private final Vector start;
+    private final Vector end;
 
-    public Line(Point start, Point end) {
+    public Line(Vector start, Vector end) {
         this.start = start;
         this.end = end;
     }
 
     public double length() {
-        return new Vector(
-                end.getX() - start.getX(),
-                end.getY() - start.getY()
-        ).length();
+        return end.minus(start).length();
     }
 
     public Line move(Vector vector) {
-        return new Line(start.move(vector), end.move(vector));
+        return new Line(start.plus(vector), end.plus(vector));
     }
-
 
     public Line scale(double factor) {
         Vector center = new Vector(
-                (start.getX() + end.getX()) / 2,
-                (start.getY() + end.getY()) / 2
+            (start.getX() + end.getX()) / 2,
+            (start.getY() + end.getY()) / 2
         );
-
-        Point newStart = new Point(
-                center.getX() + (start.getX() - center.getX()) * factor,
-                center.getY() + (start.getY() - center.getY()) * factor
-        );
-
-        Point newEnd = new Point(
-                center.getX() + (end.getX() - center.getX()) * factor,
-                center.getY() + (end.getY() - center.getY()) * factor
-        );
-
+        Vector newStart = center.plus(start.minus(center).multiply(factor));
+        Vector newEnd = center.plus(end.minus(center).multiply(factor));
         return new Line(newStart, newEnd);
     }
-
-
-
 
     @Override
     public boolean equals(Object o) {

@@ -1,10 +1,10 @@
 import java.util.Objects;
 
 public final class Circle {
-    private final Point center;
+    private final Vector center;
     private final double radius;
 
-    public Circle(Point center, double radius) {
+    public Circle(Vector center, double radius) { 
         this.center = center;
         this.radius = radius;
     }
@@ -14,7 +14,7 @@ public final class Circle {
     }
 
     public Circle move(Vector vector) {
-        return new Circle(center.move(vector), radius);
+        return new Circle(center.plus(vector), radius); 
     }
 
     public double perimeter() {

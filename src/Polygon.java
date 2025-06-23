@@ -3,9 +3,9 @@ import java.util.List;
 import java.util.Objects;
 
 public final class Polygon {
-    private final List<Point> vertices;
+    private final List<Vector> vertices;
 
-    public Polygon(List<Point> vertices) {
+    public Polygon(List<Vector> vertices) {
         this.vertices = new ArrayList<>(vertices);
     }
 
@@ -13,71 +13,50 @@ public final class Polygon {
         double sum = 0;
         int n = vertices.size();
         for (int i = 0; i < n; i++) {
-            Point current = vertices.get(i);
-            Point next = vertices.get((i + 1) % n);
-            sum += current.getX() * next.getY() - current.getY() * next.getX();
+            Vector v1 = vertices.get(i);
+            Vector v2 = vertices.get((i + 1) % n);
+            sum += v1.getX() * v2.getY() - v1.getY() * v2.getX();
         }
         return Math.abs(sum) / 2;
     }
 
     public Polygon move(Vector vector) {
-        List<Point> newVertices = new ArrayList<>();
-        for (Point vertex : vertices) {
-            newVertices.add(vertex.move(vector));
+        List<Vector> newVertices = new ArrayList<>();
+        for (Vector vertex : vertices) {
+            newVertices.add(vertex.plus(vector));
         }
         return new Polygon(newVertices);
     }
 
-    public static double calculatePerimeter(double[] vertices) {
-        if (vertices.length < 4 || vertices.length % 2 != 0) {
-            throw new IllegalArgumentException("Некорректное количество координат вершин");
-        }
-
+    public double perimeter() {
         double perimeter = 0.0;
-        int n = vertices.length / 2;
-
-        for (int i = 0; i < n-1; i++) {
-            double x1 = vertices[2 * i];
-            double y1 = vertices[2 * i + 1];
-
-            double x2 = vertices[2 * (i + 1)];
-            double y2 = vertices[2 * (i + 1) + 1];
-
-            Vector side = new Vector(x2 - x1, y2 - y1);
-            perimeter += side.length();
-
+        int n = vertices.size();
+        for (int i = 0; i < n; i++) {
+            Vector v1 = vertices.get(i);
+            Vector v2 = vertices.get((i + 1) % n);
+            perimeter += v2.minus(v1).length();
         }
-        double x0 = vertices[0];
-        double y0 = vertices[1];
-        double xn = vertices[(n-1)*2];
-        double yn = vertices[(n-1)*2+1];
-        Vector side = new Vector(x0 - xn, y0 - yn);
-        perimeter += side.length();
-
         return perimeter;
     }
 
     public Polygon scale(double factor) {
         Vector center = calculateCentroid();
-        List<Point> newVertices = new ArrayList<>();
-        for (Point vertex : vertices) {
-            newVertices.add(new Point(
-                    center.getX() + (vertex.getX() - center.getX()) * factor,
-                    center.getY() + (vertex.getY() - center.getY()) * factor
-            ));
+        List<Vector> newVertices = new ArrayList<>();
+        for (Vector vertex : vertices) {
+            newVertices.add(center.plus(vertex.minus(center).multiply(factor)));
         }
         return new Polygon(newVertices);
     }
 
     private Vector calculateCentroid() {
         double xSum = 0, ySum = 0;
-        for (Point vertex : vertices) {
-            xSum += vertex.getX();
-            ySum += vertex.getY();
+        int n = vertices.size();
+        for (Vector v : vertices) {
+            xSum += v.getX();
+            ySum += v.getY();
         }
-        return new Vector(xSum / vertices.size(), ySum / vertices.size());
+        return new Vector(xSum / n, ySum / n);
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -89,6 +68,6 @@ public final class Polygon {
 
     @Override
     public int hashCode() {
-        return vertices.hashCode();
+        return Objects.hash(vertices);
     }
 }
