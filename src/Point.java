@@ -1,4 +1,4 @@
-public final class Point {
+public final class Point implements Drawable {
     private final Vector position;
 
     public Point(Vector position) {
@@ -12,11 +12,19 @@ public final class Point {
     public double getX() { return position.getX(); }
     public double getY() { return position.getY(); }
 
+    @Override
+    public void draw() {
+        // Пока пусто
+    }
+
+    @Override
+    public Point translate(Vector vector) {
+        return move(vector);
+    }
+
     public Point move(Vector vector) {
         return new Point(position.plus(vector));
     }
-
-
 
     @Override
     public boolean equals(Object o) {

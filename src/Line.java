@@ -1,12 +1,22 @@
 import java.util.Objects;
 
-public final class Line {
+public final class Line implements Drawable {
     private final Vector start;
     private final Vector end;
 
     public Line(Vector start, Vector end) {
         this.start = start;
         this.end = end;
+    }
+
+    @Override
+    public void draw() {
+        // Пока пусто
+    }
+
+    @Override
+    public Line translate(Vector vector) {
+        return move(vector);
     }
 
     public double length() {

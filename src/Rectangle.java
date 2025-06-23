@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public final class Rectangle {
+public final class Rectangle implements Shape {
     private final Vector center;
     private final double width;
     private final double height;
@@ -11,6 +11,16 @@ public final class Rectangle {
         this.width = width;
         this.height = height;
         this.angleRadians = angleRadians;
+    }
+
+    @Override
+    public void draw() {
+        // Пока пусто
+    }
+
+    @Override
+    public Rectangle translate(Vector vector) {
+        return move(vector);
     }
 
     public double area() {

@@ -2,11 +2,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class Polygon {
+public final class Polygon implements Shape {
     private final List<Vector> vertices;
 
     public Polygon(List<Vector> vertices) {
         this.vertices = new ArrayList<>(vertices);
+    }
+
+    @Override
+    public void draw() {
+        // Пока пусто
+    }
+
+    @Override
+    public Polygon translate(Vector vector) {
+        return move(vector);
     }
 
     public double area() {

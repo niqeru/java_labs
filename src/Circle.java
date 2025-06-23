@@ -1,12 +1,22 @@
 import java.util.Objects;
 
-public final class Circle {
+public final class Circle implements Shape {
     private final Vector center;
     private final double radius;
 
-    public Circle(Vector center, double radius) { 
+    public Circle(Vector center, double radius) {
         this.center = center;
         this.radius = radius;
+    }
+
+    @Override
+    public void draw() {
+        // Пока пусто
+    }
+
+    @Override
+    public Circle translate(Vector vector) {
+        return move(vector);
     }
 
     public double area() {
@@ -14,7 +24,7 @@ public final class Circle {
     }
 
     public Circle move(Vector vector) {
-        return new Circle(center.plus(vector), radius); 
+        return new Circle(center.plus(vector), radius);
     }
 
     public double perimeter() {

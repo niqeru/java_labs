@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public final class Triangle {
+public final class Triangle implements Shape {
     private final Vector a;
     private final Vector b;
     private final Vector c;
@@ -11,6 +11,16 @@ public final class Triangle {
         this.c = c;
     }
 
+    @Override
+    public void draw() {
+        // Пока пусто
+    }
+
+    @Override
+    public Triangle translate(Vector vector) {
+        return move(vector);
+    }
+
     public double area() {
         Vector ab = b.minus(a);
         Vector ac = c.minus(a);
@@ -18,11 +28,7 @@ public final class Triangle {
     }
 
     public Triangle move(Vector vector) {
-        return new Triangle(
-                a.plus(vector),
-                b.plus(vector),
-                c.plus(vector)
-        );
+        return new Triangle(a.plus(vector), b.plus(vector), c.plus(vector));
     }
 
     public double perimeter() {

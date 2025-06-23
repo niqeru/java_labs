@@ -1,14 +1,12 @@
 import java.util.Objects;
 
-public final class Ellipse {
+public final class Ellipse implements Shape {
     private final Vector center;
     private final double a; // большая полуось
     private final double b; // малая полуось
     private final double angleRadians; // угол поворота
 
-
     public Ellipse(Vector center, double a, double b, double angleRadians) {
-        if (a <= 0 || b <= 0) throw new IllegalArgumentException("Полуоси должны быть положительными");
         this.center = center;
         this.a = a;
         this.b = b;
@@ -16,14 +14,21 @@ public final class Ellipse {
     }
 
     public Ellipse(Vector f1, Vector f2, double a) {
-        double distance = f1.minus(f2).length();
-        double c = distance / 2;
-        if (a <= c) throw new IllegalArgumentException("Невозможно построить эллипс с такими параметрами");
-
         this.center = f1.plus(f2).multiply(0.5);
         this.a = a;
+        double c = f1.minus(f2).length() / 2;
         this.b = Math.sqrt(a * a - c * c);
         this.angleRadians = f2.minus(f1).angleX();
+    }
+
+    @Override
+    public void draw() {
+        // Пока пусто
+    }
+
+    @Override
+    public Ellipse translate(Vector v) {
+        return move(v);
     }
 
     public Vector getCenter() {
@@ -47,28 +52,27 @@ public final class Ellipse {
     }
 
     public Ellipse scale(double factor) {
-        if (factor <= 0) throw new IllegalArgumentException("Фактор масштабирования должен быть > 0");
         return new Ellipse(center, a * factor, b * factor, angleRadians);
     }
 
-    public double Area() {
+    public double area() {
         return Math.PI * a * b;
     }
 
-    public double perimetr() {
-        double h = Math.pow((a - b), 2) / Math.pow((a + b), 2);
-        return Math.PI * (a + b) * (1 + (3 * h) / (10 + Math.sqrt(4 - 3 * h)));
+    public double perimeter() {
+        // Приближённая формула Раману
+        return Math.PI * (3 * (a + b) - Math.sqrt((3 * a + b) * (a + 3 * b)));
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (!(obj instanceof Ellipse)) return false;
-        Ellipse other = (Ellipse) obj;
-        return center.equals(other.center)
-                && Math.abs(a - other.a) < 1e-6
-                && Math.abs(b - other.b) < 1e-6
-                && Math.abs(angleRadians - other.angleRadians) < 1e-6;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Ellipse ellipse = (Ellipse) obj;
+        return Double.compare(ellipse.a, a) == 0 &&
+                Double.compare(ellipse.b, b) == 0 &&
+                Double.compare(ellipse.angleRadians, angleRadians) == 0 &&
+                center.equals(ellipse.center);
     }
 
     @Override
